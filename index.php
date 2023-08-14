@@ -1,11 +1,10 @@
 <?php
-$contacts = [
-	["Name" => "Pepe", "Phone Number" => "9883256"],
-	["Name" => "Federico", "Phone Number" => "9883256"],
-	["Name" => "Roxana", "Phone Number" => "9883256"],
-	["Name" => "Gabo", "Phone Number" => "9264448326"],
-	["Name" => "Sandra", "Phone Number" => "9264448326"],
-];
+
+	if(file_exists("contact.json")) {
+		$contacts[] = json_decode(file_get_contents("contact.json"), true);
+	} else {
+		$contacts = [];
+	}
 
 ?>
 
@@ -44,7 +43,7 @@ $contacts = [
 							<a class="nav-link " aria-current="page" href="#">Home</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="./add.html">Add Contact</a>
+							<a class="nav-link" href="./add.php">Add Contact</a>
 						</li>
 						</li>
 					</ul>
@@ -55,21 +54,29 @@ $contacts = [
 	<main>
 		<div class="container pt-4 p-3">
 			<div class="row">
-
-
-				<?php foreach($contacts as $contact): ?>
-					<div class="col-md-4 mb-3">
-						<div class="card text-center">
-							<div class="card-body">
-								<h3 class="card-title text-capitalize"><?= $contact["Name"] ?></h3>
-								<p class="m-2"><?= $contact["Phone Number"] ?></p>
-								<a href="#" class="btn btn-secondary mb-2">Edit Contact</a>
-								<a href="#" class="btn btn-danger mb-2">Delete Contact</a>
+				<?php if(count($contacts) != 0){ ?>
+					<?php foreach($contacts as $contact): ?>
+						<div class="col-md-4 mb-3">
+							<div class="card text-center">
+								<div class="card-body">
+									<h3 class="card-title text-capitalize"><?= $contact["name"] ?></h3>
+									<p class="m-2"><?= $contact["phone_number"] ?></p>
+									<a href="#" class="btn btn-secondary mb-2">Edit Contact</a>
+									<a href="#" class="btn btn-danger mb-2">Delete Contact</a>
+								</div>
 							</div>
 						</div>
+					<?php endforeach ?>
+				<?php } else { ?>
+					<div class="col-md-4 mx-auto">
+							<div class="card text-center">
+								<div class="card-body">
+									<h3 class="card-title text ">You no have a contact in storage!</h3>
+									<p class="m-2"><a href="./add.php">Add one!</a></p>
+								</div>
+							</div>
 					</div>
-				<?php endforeach ?>
-
+				<?php } ?>
 
 			</div>
 		</div>
